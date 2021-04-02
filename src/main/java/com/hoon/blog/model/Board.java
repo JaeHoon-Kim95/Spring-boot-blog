@@ -1,15 +1,18 @@
 package com.hoon.blog.model;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
@@ -39,10 +42,14 @@ public class Board {
 	@ColumnDefault("0")
 	private int count;
 	
+	//fetch = FetchType.EAGER : 값 하나 뿐이니 무조건 가져와라
 	//User model을 참조하고 자동으로 FK가 만들어짐
-	@ManyToOne // Many = Board, User = One 여러개의 게시글은 한명의 유저에 의해 쓰일 수 있다.
+	@ManyToOne(fetch = FetchType.EAGER) // Many = Board, User = One 여러개의 게시글은 한명의 유저에 의해 쓰일 수 있다.
 	@JoinColumn(name="userId") //userId라는 이름으로 테이블에 값이 들어감 
 	private User user; //DB는 오브젝트 저장 x, 자바는 오브젝트 저장 가능
+	
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) //mappedBy : 연관관계의 주인이 아니다. DB에 컬럼을 만들지 말아라
+	private List<Reply> reply;
 	
 	@CreationTimestamp
 	private Timestamp createDate;
