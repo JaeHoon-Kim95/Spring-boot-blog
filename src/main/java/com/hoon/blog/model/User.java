@@ -30,10 +30,10 @@ public class User {
 	private int id; //시퀀스, auto_increment
 	
 	@Column(nullable = false, length = 30, unique = true)
-	private String userName; //아이디
+	private String username; //아이디
 	
 	@Column(nullable = false, length = 100)
-	private String passWord; 
+	private String password; 
 	
 	@Column(nullable = false, length = 50)
 	private String email;

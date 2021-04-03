@@ -33,8 +33,8 @@ public class DummyControllerTest {
 	@PostMapping("/dummy/join")
 	public String join(User user) {
 		System.out.println(user.getId());
-		System.out.println(user.getUserName());
-		System.out.println(user.getPassWord());
+		System.out.println(user.getUsername());
+		System.out.println(user.getPassword());
 		System.out.println(user.getRole());
 		System.out.println(user.getEmail());
 		
@@ -83,13 +83,13 @@ public class DummyControllerTest {
 	@PutMapping("/dummy/user/{id}")
 	public User updateUser(@PathVariable int id,@RequestBody User requestUser) { //JSON 데이터 요청 => MessageConverter의 Jackson 라이브러리가 변환해서 받아줌
 		System.out.println("id :"+id);
-		System.out.println("password :"+requestUser.getPassWord());
+		System.out.println("password :"+requestUser.getPassword());
 		System.out.println("email :"+requestUser.getEmail());
 		
 		User user = userRepository.findById(id).orElseThrow(()->{
 			return new IllegalArgumentException("수정에 실패했습니다.");
 		});
-		user.setPassWord(requestUser.getPassWord());
+		user.setPassword(requestUser.getPassword());
 		user.setEmail(requestUser.getEmail());
 	
 		//userRepository.save(user);
