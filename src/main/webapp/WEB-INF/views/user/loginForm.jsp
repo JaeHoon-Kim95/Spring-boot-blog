@@ -10,7 +10,7 @@
 			<label for="pwd">Password:</label> <input type="password" class="form-control" placeholder="Enter password" id="password" name="password">
 		</div>
 		
-		<button type="submit" id="btn-login" class="btn btn-primary">로그인</button>
+		<button id="btn-login" class="btn btn-primary">로그인</button>
 	</form>
 	
 </div>

@@ -39,7 +39,6 @@ public class Board {
 	@Lob //대용량 데이터
 	private String content; //섬머노트 라이브러리 <html>태그가 섞여서 디자인 됨
 	
-	@ColumnDefault("0")
 	private int count;
 	
 	//fetch = FetchType.EAGER : 값 하나 뿐이니 무조건 가져와라

@@ -9,6 +9,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.hoon.blog.model.User;
 
+import lombok.Data;
+import lombok.Getter;
+
+@Getter
 // 시큐리티 세션에 UserDetails정보만 저장 가능
 public class PrincipalDetail implements UserDetails {
 	private User user;
