@@ -9,7 +9,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.hoon.blog.model.Board;
 import com.hoon.blog.service.BoardService;
@@ -22,7 +22,7 @@ public class BoardController {
 
 	@GetMapping({"","/"})
 	public String index(Model model, @PageableDefault(size=3, sort="id",  direction=Sort.Direction.DESC) Pageable pageable) {
-		Page<Board> boards = boardService.SelectList(pageable);
+		Page<Board> boards = boardService.doSelectList(pageable);
 
 		int pageNumber = boards.getPageable().getPageNumber(); //현재 페이지
 		int totalPages=boards.getTotalPages();
@@ -35,6 +35,12 @@ public class BoardController {
 		model.addAttribute("endBlockPage",endBlockPage);
 		model.addAttribute("boards",boards);
 		return "index";
+	}
+	
+	@GetMapping("/board/{id}")
+	public String findById(@PathVariable int id, Model model) {
+		model.addAttribute("board",boardService.doDetail(id));
+		return "board/detail";
 	}
 	
 	@GetMapping("/board/saveForm")
