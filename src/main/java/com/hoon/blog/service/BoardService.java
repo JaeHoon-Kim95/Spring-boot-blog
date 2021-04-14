@@ -26,7 +26,7 @@ public class BoardService {
 	
 	
 	@Transactional
-	public void doPost(Board board, User user) {
+	public void doPost(Board board, User user) { //예외 발생시 handler/GlobalExceptionHandler return값 출력
 		board.setCount(0);
 		board.setUser(user);
 		boardRepository.save(board);
@@ -55,5 +55,19 @@ public class BoardService {
             throw new IllegalStateException("글 삭제 실패 : 해당 글을 삭제할 권한이 없습니다.");
         }
         boardRepository.delete(board);
+	}
+	
+	@Transactional
+	public void doUpdate(int id, Board requestBoard, PrincipalDetail principal) {
+		Board board = boardRepository.findById(id).orElseThrow(() -> {
+            return new IllegalArgumentException("글 찾기 실패 : 해당 글이 존재하지 않습니다.");  
+        }); //영속화 완료 DB 테이블에 있는 데이터와 동기화 완료
+		
+		if (board.getUser().getId() != principal.getUser().getId()) {
+            throw new IllegalStateException("글 삭제 실패 : 해당 글을 삭제할 권한이 없습니다.");
+        }
+		board.setTitle(requestBoard.getTitle());
+		board.setContent(requestBoard.getContent());
+		//해당 service 종료 시 트랜잭션이 종료됨. 이때 더티체킹 - 자동 업데이트 됨(db flush)
 	}
 }

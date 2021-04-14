@@ -6,6 +6,9 @@ let index = {
 		$("#btn-delete").on("click",()=>{ // function(){}안쓰고 ()=>쓰는 이유는 this를 바인딩하기 위해서
 			this.doDelete();
 		});
+		$("#btn-update").on("click",()=>{ // function(){}안쓰고 ()=>쓰는 이유는 this를 바인딩하기 위해서
+			this.doUpdate();
+		});
 		
 	},
 	doPost : function(){
@@ -30,14 +33,36 @@ let index = {
 		}); 
 	},
 	doDelete : function(){
-		var id = $("#id").text();	
+		let id = $("#id").text();	
 		$.ajax({
 			type:"DELETE",
 			url:"/api/board/"+id,
 			dataType:"json",
 			contentType:"application/json; charset=utf-8"  
-		}).done(function(resp){
+		}).done(function(){
 			alert("삭제가 완료되었습니다.");
+			location.href="/";
+		}).fail(function(){
+			alert("권한이 없습니다.");
+		}); 
+	},
+	doUpdate : function(){
+		let id= $("#id").val();
+		
+		let data ={
+			title : $("#title").val(),
+			content : $("#content").val()
+			
+		};
+
+		$.ajax({
+			type:"PUT",
+			url:"/api/board/"+id,
+			data:JSON.stringify(data),
+			contentType:"application/json; charset=utf-8", 
+			dataType:"json" 
+		}).done(function(){
+			alert("글수정이 완료되었습니다.");
 			location.href="/";
 		}).fail(function(){
 			alert("권한이 없습니다.");
