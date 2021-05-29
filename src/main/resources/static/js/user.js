@@ -25,8 +25,12 @@ let index = {
 			contentType:"application/json; charset=utf-8", //body 데이터가 어떤 타입인지
 			dataType:"json" //요청을 서버로해서 응답이 왔을 때 기본적으로 모든 것이 문자열 만약 JSON이라면 javascript 오브젝트로 변경
 		}).done(function(resp){
-			alert("회원가입이 완료되었습니다.");
+			if(resp.status === 500){
+				alert("중복된 아이디 입니다.");
+			}else{
+				alert("회원가입이 완료되었습니다.");
 			location.href="/";
+			}
 		}).fail(function(){
 			alert(JSON.stringify(error));
 		}); 

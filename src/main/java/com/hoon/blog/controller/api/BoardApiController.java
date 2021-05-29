@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hoon.blog.config.auth.PrincipalDetail;
+import com.hoon.blog.dto.ReplySaveRequestDto;
 import com.hoon.blog.dto.ResponseDto;
 import com.hoon.blog.model.Board;
+import com.hoon.blog.model.Reply;
 import com.hoon.blog.model.RoleType;
 import com.hoon.blog.model.User;
 import com.hoon.blog.service.BoardService;
@@ -40,8 +42,22 @@ public class BoardApiController {
 	
 	@PutMapping("/api/board/{id}")
 	public ResponseDto<Integer> doUpdate(@PathVariable int id, @RequestBody Board board,
-										 @AuthenticationPrincipal PrincipalDetail principal){
+				@AuthenticationPrincipal PrincipalDetail principal){
 		boardService.doUpdate(id,board,principal);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+	}
+	
+	@PostMapping("/api/board/{boardId}/reply")
+	public ResponseDto<Integer> replyPost(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+
+		boardService.replyPost(replySaveRequestDto);
+		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
+	}
+	
+	@DeleteMapping("/api/board/{boardId}/reply/{replyId}")
+	public ResponseDto<Integer> replyDelete(@PathVariable int replyId,
+				@AuthenticationPrincipal PrincipalDetail principal){
+		boardService.replyDelete(replyId, principal);
 		return new ResponseDto<Integer>(HttpStatus.OK.value(),1);
 	}
 }
